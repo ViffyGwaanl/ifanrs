@@ -1,9 +1,13 @@
 "use client";
 import React from 'react';
 import { ArrowRight, Calendar, Award, Briefcase, Code, Terminal, Pencil, Zap, BookOpen, Image, FileText, Video, MessageCircle } from 'lucide-react';
-import { PieChart, Pie, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 
-const ResumeVisual = () => {
+// 添加视图切换属性接口
+interface ResumeVisualProps {
+  onViewChange?: (view: string) => void;
+}
+
+const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
   // Styling constants with brand colors
   const colors = {
     primary: "#FF4500",
@@ -62,7 +66,7 @@ const ResumeVisual = () => {
       location: "广州",
       key_achievements: [
         "负责公司业务部门每天的销售数据核对处理",
-        "通过使用Tableau和Excel对每周公司销售数据进行可视化报表制作",
+        "对每周公司销售数据进行可视化报表制作",
         "使用Python对公司旧销售数据进行批量清洗与处理",
         "负责部门报销单据填写、核对与上交"
       ],
@@ -115,7 +119,7 @@ const ResumeVisual = () => {
   // Projects data
   const projects = [
     {
-      name: "书同文",
+      name: "书同文Suwin",
       type: "AI领域公众号",
       description: "专注AI领域，近期发表十余篇关注AI领域的深度分析文章，撰写近8年AI和大语言模型评测集的发展综述",
       metrics: [
@@ -162,28 +166,11 @@ const ResumeVisual = () => {
     }
   ];
 
-  // Interest data with progress
-  const interestData = [
-    { name: "AI技术研究", value: 90 },
-    { name: "数码评测", value: 85 },
-    { name: "摄影", value: 80 },
-    { name: "产品分析", value: 75 },
-    { name: "财务管理", value: 65 }
-  ];
-
-  // Career growth data for line chart
-  const careerGrowthData = [
-    { year: '2015', growth: 20, position: '入学' },
-    { year: '2019', growth: 40, position: '毕业' },
-    { year: '2020', growth: 55, position: '数据分析师' },
-    { year: '2022', growth: 70, position: '财务&助理' },
-    { year: '2023', growth: 80, position: 'AI内容' },
-    { year: '2025', growth: 95, position: '未来目标' }
-  ];
+  // 删除未使用的 interestData 变量
 
   return (
     <div className="w-full max-w-4xl mx-auto p-2 sm:p-4" style={{ background: colors.background }}>
-      {/* Header */}
+      {/* Header - 添加视图切换器 */}
       <div className="bg-white p-4 sm:p-8 rounded-xl shadow-sm border border-gray-100 mb-4 sm:mb-8">
         <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-between">
           <div className="text-center sm:text-left mb-4 sm:mb-0">
@@ -200,16 +187,33 @@ const ResumeVisual = () => {
               </div>
               <div className="bg-gray-100 rounded-full px-3 py-1 text-xs flex items-center">
                 <Calendar size={12} className="mr-1" />
-                983929606@qq.com
+                gwaanl@foxmail.com
               </div>
             </div>
           </div>
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-white text-3xl font-bold" style={{ background: colors.primary }}>关</div>
+          <div className="flex items-center space-x-4">
+            {/* 添加视图切换器 */}
+            <div className="bg-gray-100 rounded-lg p-1 flex text-sm font-medium">
+              <button 
+                className="px-3 py-1.5 rounded-md transition-colors bg-white shadow-sm"
+                onClick={() => onViewChange && onViewChange('resume')}
+              >
+                简历
+              </button>
+              <button 
+                className="px-3 py-1.5 rounded-md transition-colors hover:bg-gray-200"
+                onClick={() => onViewChange && onViewChange('work')}
+              >
+                作品
+              </button>
+            </div>
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-white text-3xl font-bold" style={{ background: colors.primary }}>关</div>
+          </div>
         </div>
         
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
           <div className="p-3 rounded-lg border border-gray-100 bg-white shadow-sm text-center">
-            <div className="text-2xl font-bold" style={{ color: colors.primary }}>3+</div>
+            <div className="text-2xl font-bold" style={{ color: colors.primary }}>5</div>
             <div className="text-xs text-gray-500">年工作经验</div>
           </div>
           <div className="p-3 rounded-lg border border-gray-100 bg-white shadow-sm text-center">
@@ -269,7 +273,7 @@ const ResumeVisual = () => {
         </div>
       </div>
       
-      {/* About Me */}
+      {/* About Me - MODIFIED: 移除两个图表 */}
       <div id="about" className={sectionStyle}>
         <div className={sectionHeaderStyle}>
           <h2 className={sectionTitleStyle}>个人简介</h2>
@@ -278,65 +282,9 @@ const ResumeVisual = () => {
           </div>
         </div>
         
-        <p className="text-gray-700 mb-6">
+        <p className="text-gray-700">
           在数据分析与财务管理领域拥有扎实基础，同时对AI技术和数码产品有浓厚兴趣。目前运营AI领域公众号&quot;书同文&quot;和B站数码评测账号&quot;gwaanl&quot;。擅长将复杂技术转化为易懂内容，善于产品分析与数据可视化。热爱摄影，作品丰富。在机智流AI论文分享会和Way to AGI切磋大会等技术社区活跃，分享AI实践经验。
         </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="border border-gray-100 rounded-lg p-4">
-            <h3 className="font-medium mb-3">职业发展路径</h3>
-            <div className="h-60">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  data={careerGrowthData}
-                  margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" />
-                  <YAxis domain={[0, 100]} hide />
-                  <Tooltip 
-                    formatter={(value) => [value, '成长值']}
-                    labelFormatter={(value) => `${value}年`}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="growth" 
-                    stroke={colors.primary} 
-                    strokeWidth={2}
-                    dot={{ stroke: colors.primary, strokeWidth: 2, r: 4 }}
-                    activeDot={{ r: 8 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          
-          <div className="border border-gray-100 rounded-lg p-4">
-            <h3 className="font-medium mb-3">专业兴趣</h3>
-            <div className="h-60">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  layout="vertical"
-                  data={interestData}
-                  margin={{ top: 10, right: 30, left: 50, bottom: 10 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" domain={[0, 100]} />
-                  <YAxis dataKey="name" type="category" />
-                  <Tooltip formatter={(value) => [`${value}%`, '兴趣度']} />
-                  <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                    {interestData.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={index % 2 === 0 ? colors.primary : colors.secondary}
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
       </div>
       
       {/* Work Experience Section */}
@@ -349,26 +297,22 @@ const ResumeVisual = () => {
         </div>
         
         <div className="relative">
-          {/* Timeline central line */}
-          <div className="absolute left-4 sm:left-5 top-0 bottom-0 w-0.5" style={{ background: colors.primary }}></div>
-          
-          {/* Timeline events */}
+          {/* Timeline events - removed central line */}
           {workExperience.map((job, index) => (
             <div key={index} className="flex mb-10 sm:mb-12 group">
-              {/* Time marker */}
-              <div className="relative">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-sm z-10 text-white"
-                    style={{ background: job.color }}>
-                  <span className="text-lg">{job.icon}</span>
-                </div>
-              </div>
-              
-              {/* Content */}
-              <div className="ml-4 sm:ml-6 flex-grow">
+              {/* Content - moved Time marker inside */}
+              <div className="flex-grow">
                 <div className="p-4 sm:p-6 rounded-xl shadow-sm group-hover:shadow-md transition-all duration-300 bg-white border-l-4"
                     style={{ borderLeftColor: job.color }}>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
-                    <h3 className="text-lg font-bold">{job.company}</h3>
+                    {/* Icon moved inside company name area */}
+                    <h3 className="text-lg font-bold flex items-center">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shadow-sm text-white mr-2"
+                          style={{ background: job.color }}>
+                        <span className="text-lg">{job.icon}</span>
+                      </div>
+                      {job.company}
+                    </h3>
                     <div className="text-sm text-gray-600 mt-1 sm:mt-0">{job.period} ({job.duration})</div>
                   </div>
                   <div className="inline-block mb-3 px-2 py-1 rounded-full text-sm font-medium"
@@ -457,7 +401,7 @@ const ResumeVisual = () => {
         </div>
       </div>
       
-      {/* Skills Section */}
+      {/* Skills Section - MODIFIED: 优化设计, 去掉图表 */}
       <div id="skills" className={sectionStyle}>
         <div className={sectionHeaderStyle}>
           <h2 className={sectionTitleStyle}>专业技能</h2>
@@ -466,95 +410,40 @@ const ResumeVisual = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="border border-gray-100 rounded-lg p-4">
-            <h3 className="font-medium mb-4">技能分布</h3>
-            <div className="h-60">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: '技术能力', value: 40 },
-                      { name: '内容能力', value: 30 },
-                      { name: '专业知识', value: 20 },
-                      { name: '沟通能力', value: 10 }
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    <Cell fill={colors.primary} />
-                    <Cell fill={colors.secondary} />
-                    <Cell fill="#38B2AC" />
-                    <Cell fill="#ED8936" />
-                  </Pie>
-                  <Tooltip formatter={(value) => `${value}%`} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          
-          <div className="border border-gray-100 rounded-lg p-4">
-            <h3 className="font-medium mb-4">技能成长曲线</h3>
-            <div className="h-60">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  data={[
-                    { year: '2015', skill: 20 },
-                    { year: '2017', skill: 40 },
-                    { year: '2019', skill: 55 },
-                    { year: '2021', skill: 70 },
-                    { year: '2023', skill: 85 },
-                    { year: '2025', skill: 95 }
-                  ]}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" />
-                  <YAxis domain={[0, 100]} />
-                  <Tooltip formatter={(value) => `${value}%`} />
-                  <Line 
-                    type="monotone" 
-                    dataKey="skill" 
-                    stroke={colors.primary} 
-                    activeDot={{ r: 8 }}
-                    name="技能水平"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-        
-        <div className="space-y-4">
+        {/* 优化后的技能部分 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {['技术能力', '内容能力', '专业知识', '沟通能力'].map((category, catIdx) => (
-            <div key={catIdx}>
+            <div key={catIdx} className="p-4 border border-gray-100 rounded-lg bg-white">
               <h3 className="font-medium mb-3 flex items-center">
-                <div className="w-3 h-3 mr-2 rounded-full" style={{ background: colors.primary }}></div>
+                <div className="w-3 h-3 mr-2 rounded-full" style={{ 
+                  background: 
+                    category === '技术能力' ? colors.primary : 
+                    category === '内容能力' ? colors.secondary : 
+                    category === '专业知识' ? "#38B2AC" : "#ED8936" 
+                }}></div>
                 {category}
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {skills.filter(skill => skill.category === category).map((skill, skillIdx) => (
-                  <div key={skillIdx} className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
-                    <div className="flex items-center justify-between mb-2">
+                  <div key={skillIdx} className="mb-2">
+                    <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center">
-                        <span className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center mr-2">
+                        <span className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center mr-2">
                           {skill.icon}
                         </span>
-                        <span className="font-medium">{skill.name}</span>
+                        <span className="text-sm font-medium">{skill.name}</span>
                       </div>
-                      <span className="text-sm font-bold" style={{ color: colors.primary }}>{skill.level}%</span>
+                      <span className="text-xs font-bold" style={{ color: colors.primary }}>{skill.level}%</span>
                     </div>
-                    <div className="w-full bg-gray-100 rounded-full h-2">
+                    <div className="w-full bg-gray-100 rounded-full h-1.5">
                       <div 
-                        className="h-2 rounded-full" 
+                        className="h-1.5 rounded-full" 
                         style={{ 
                           width: `${skill.level}%`, 
-                          background: colors.primary
+                          background: 
+                            category === '技术能力' ? colors.primary : 
+                            category === '内容能力' ? colors.secondary : 
+                            category === '专业知识' ? "#38B2AC" : "#ED8936"
                         }}
                       ></div>
                     </div>
@@ -563,6 +452,22 @@ const ResumeVisual = () => {
               </div>
             </div>
           ))}
+        </div>
+        
+        <div className="mt-6 p-4 rounded-xl border border-gray-100" style={{ background: colors.lightBackground }}>
+          <h3 className="text-lg font-bold mb-4">核心技能统计</h3>
+          <div className="grid grid-cols-4 gap-2">
+            {skills.sort((a, b) => b.level - a.level).slice(0, 4).map((skill, idx) => (
+              <div key={idx} className="p-3 bg-white rounded-lg border border-gray-100 text-center">
+                <div className="w-8 h-8 mx-auto mb-2 rounded-full flex items-center justify-center" 
+                    style={{ background: `${colors.primary}20` }}>
+                  {skill.icon}
+                </div>
+                <h4 className="text-sm font-medium">{skill.name}</h4>
+                <p className="text-lg font-bold mt-1" style={{ color: colors.primary }}>{skill.level}%</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       
@@ -576,26 +481,22 @@ const ResumeVisual = () => {
         </div>
         
         <div className="relative">
-          {/* Timeline central line */}
-          <div className="absolute left-4 sm:left-5 top-0 bottom-0 w-0.5" style={{ background: colors.primary }}></div>
-          
-          {/* Timeline events */}
+          {/* Timeline events - removed central line */}
           {education.map((edu, index) => (
             <div key={index} className="flex mb-10 group">
-              {/* Time marker */}
-              <div className="relative">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-sm z-10 text-white"
-                    style={{ background: colors.primary }}>
-                  <span className="text-lg">{edu.icon}</span>
-                </div>
-              </div>
-              
-              {/* Content */}
-              <div className="ml-4 sm:ml-6 flex-grow">
+              {/* Content - moved Time marker inside */}
+              <div className="flex-grow">
                 <div className="p-4 sm:p-6 rounded-xl shadow-sm group-hover:shadow-md transition-all duration-300 bg-white border-l-4"
                     style={{ borderLeftColor: colors.primary }}>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
-                    <h3 className="text-lg font-bold">{edu.school}</h3>
+                    {/* Icon moved inside school name area */}
+                    <h3 className="text-lg font-bold flex items-center">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shadow-sm text-white mr-2"
+                          style={{ background: colors.primary }}>
+                        <span className="text-lg">{edu.icon}</span>
+                      </div>
+                      {edu.school}
+                    </h3>
                     <div className="text-sm text-gray-600 mt-1 sm:mt-0">{edu.period}</div>
                   </div>
                   <div className="inline-block mb-3 px-2 py-1 rounded-full text-sm font-medium"
@@ -648,7 +549,7 @@ const ResumeVisual = () => {
       <div className="rounded-xl p-4 bg-white shadow-sm border border-gray-100 mt-4 flex flex-col sm:flex-row items-center justify-between">
         <div className="text-center sm:text-left mb-4 sm:mb-0">
           <h3 className="font-bold mb-1">联系方式</h3>
-          <p className="text-gray-600 text-sm">电话: 13612206403 · 邮箱: 983929606@qq.com</p>
+          <p className="text-gray-600 text-sm">电话: 13612206403 · 邮箱: gwaanl@foxmail.com</p>
         </div>
         <div className="flex space-x-2">
           <a href="https://space.bilibili.com/11468410" target="_blank" rel="noopener noreferrer" 

@@ -1,9 +1,18 @@
-import IFanrTimeline from '@/components/IFanrTimeline'
+"use client";
+import { useState } from 'react';
+import LLMEvaluationDashboard from '@/components/LLMEvaluationDashboard';
+import ResumeVisual from '@/components/IFanrTimeline';
 
 export default function Home() {
+  const [currentView, setCurrentView] = useState('resume');
+  
   return (
-    <main className="min-h-screen p-4">
-      <IFanrTimeline />
-    </main>
-  )
+    <div>
+      {currentView === 'resume' ? (
+        <ResumeVisual onViewChange={setCurrentView} />
+      ) : (
+        <LLMEvaluationDashboard onViewChange={setCurrentView} />
+      )}
+    </div>
+  );
 }
