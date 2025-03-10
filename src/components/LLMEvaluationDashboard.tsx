@@ -310,46 +310,63 @@ const LLMEvaluationDashboard = ({
 
   return (
     <div className="w-full max-w-6xl mx-auto p-2 sm:p-4" style={{ background: colors.background }}>
-      {/* Header */}
-      <div className="bg-white p-4 sm:p-8 rounded-xl shadow-sm border border-gray-100 mb-4 sm:mb-8">
-        <div className="flex items-center justify-between mb-2 sm:mb-4">
-          <div>
-            <h1 className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">大语言模型评测基准</h1>
-            <h2 className="text-base sm:text-xl font-light text-gray-600">从基础语言理解到极限学术挑战的评测演进</h2>
+    {/* Header */}
+    <div className="bg-white p-4 sm:p-8 rounded-xl shadow-sm border border-gray-100 mb-4 sm:mb-8">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-between mb-2 sm:mb-4">
+        <div className="text-center sm:text-left mb-4 sm:mb-0">
+          <h1 className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">大语言模型评测基准</h1>
+          <h2 className="text-base sm:text-xl font-light text-gray-600">从基础语言理解到极限学术挑战的评测演进</h2>
+        </div>
+        <div className="flex items-center space-x-4">
+          {/* View switcher */}
+          <div className="bg-gray-100 rounded-lg p-1 flex text-sm font-medium">
+            <button 
+              className={`px-3 py-1.5 rounded-md transition-colors ${currentView === 'resume' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
+              onClick={() => {
+                if (onViewChange) onViewChange('resume');
+              }}
+            >
+              简历
+            </button>
+            <button 
+              className={`px-3 py-1.5 rounded-md transition-colors ${currentView === 'work' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
+              onClick={() => {
+                if (onViewChange) onViewChange('work');
+              }}
+            >
+              作品
+            </button>
           </div>
-          <div className="flex items-center space-x-4">
-            {/* View switcher */}
-            <div className="bg-gray-100 rounded-lg p-1 flex text-sm font-medium">
-              <button 
-                className={`px-3 py-1.5 rounded-md transition-colors ${currentView === 'resume' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
-                onClick={() => {
-                  // setCurrentView('resume');
-                  if (onViewChange) onViewChange('resume');
-                }}
-              >
-                简历
-              </button>
-              <button 
-                className={`px-3 py-1.5 rounded-md transition-colors ${currentView === 'work' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
-                onClick={() => {
-                  // setCurrentView('work');
-                  if (onViewChange) onViewChange('work');
-                }}
-              >
-                作品
-              </button>
-            </div>
-            
-            <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-white" style={{ background: colors.primary }}>
-              <BookOpen className="w-6 h-6 sm:w-10 sm:h-10" />
-            </div>
+          
+          <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-white" style={{ background: colors.primary }}>
+            <BookOpen className="w-6 h-6 sm:w-10 sm:h-10" />
           </div>
         </div>
-        <p className="text-gray-500 italic text-sm sm:text-base">
-          基于7篇重点论文和210篇相关研究的系统分析 (2017-2025)
-        </p>
       </div>
       
+      <p className="text-gray-500 italic text-sm sm:text-base mb-4">
+        基于7篇重点论文和210篇相关研究的系统分析 (2017-2025)
+      </p>
+      
+      <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+        <div className="p-3 rounded-lg border border-gray-100 bg-white shadow-sm text-center">
+          <div className="text-lg sm:text-2xl font-bold" style={{ color: colors.primary }}>7篇</div>
+          <div className="text-xs text-gray-500">重点论文</div>
+        </div>
+        <div className="p-3 rounded-lg border border-gray-100 bg-white shadow-sm text-center">
+          <div className="text-lg sm:text-2xl font-bold" style={{ color: colors.secondary }}>210+</div>
+          <div className="text-xs text-gray-500">相关研究</div>
+        </div>
+        <div className="p-3 rounded-lg border border-gray-100 bg-white shadow-sm text-center">
+          <div className="text-lg sm:text-2xl font-bold" style={{ color: "#38B2AC" }}>2017</div>
+          <div className="text-xs text-gray-500">起始年份</div>
+        </div>
+        <div className="p-3 rounded-lg border border-gray-100 bg-white shadow-sm text-center">
+          <div className="text-lg sm:text-2xl font-bold" style={{ color: "#ED8936" }}>2025</div>
+          <div className="text-xs text-gray-500">最新数据</div>
+        </div>
+      </div>
+    </div>
       {/* Navigation Menu */}
       <div className="bg-white p-2 sm:p-4 rounded-xl shadow-sm border border-gray-100 mb-4 sm:mb-8 sticky top-1 z-50">
         <div className="hidden md:flex justify-between items-center">
@@ -441,31 +458,25 @@ const LLMEvaluationDashboard = ({
           {/* Timeline central line */}
           <div className="absolute left-14 sm:left-24 top-0 bottom-0 w-1" style={{ background: colors.primary }}></div>
           
-          {/* Timeline events */}
+          {/* Timeline events - SIMPLIFIED */}
           {chronologyEvents.map((event, index) => (
             <div key={index} className="flex mb-14 sm:mb-10 group">
               {/* Left column with year */}
               <div className="relative flex-none w-14 sm:w-24 text-right pr-2 sm:pr-4">
-                <div className="inline-block bg-black text-white px-1 sm:px-2 py-1 rounded text-xs sm:text-sm font-medium mb-2">
+                <div className="inline-block bg-black text-white px-2 py-1 rounded text-xs sm:text-sm font-medium">
                   {event.year}
-                </div>
-                
-                {/* Time marker */}
-                <div className="absolute right-0 top-8 sm:top-10 w-5 sm:w-7 h-5 sm:h-7 rounded-full flex items-center justify-center shadow-sm z-10 text-white transform translate-x-1/2" 
-                     style={{ background: event.highlight ? colors.secondary : colors.primary }}>
-                  <span className="text-xs font-bold">{event.year.substring(2,4)}</span>
                 </div>
               </div>
               
               {/* Timeline vertical line */}
               <div className="relative flex-none w-0 border-r border-gray-300">
-                <div className="absolute top-8 sm:top-10 left-0 w-4 sm:w-12 h-0.5 bg-gradient-to-r from-transparent to-gray-300"></div>
+                <div className="absolute top-8 sm:top-8 left-0 w-4 sm:w-12 h-0.5 bg-gradient-to-r from-transparent to-gray-300"></div>
               </div>
               
               {/* Content column */}
               <div className="flex-grow pl-4 sm:pl-12">
-                <div className={`p-3 sm:p-6 rounded-xl shadow-sm group-hover:shadow-md transition-all duration-300 bg-white border-l-4`} 
-                     style={{ borderLeftColor: event.highlight ? colors.secondary : colors.primary }}>
+                <div className={`p-4 sm:p-6 rounded-xl shadow-sm group-hover:shadow-md transition-all duration-300 bg-white border-l-4`} 
+                    style={{ borderLeftColor: event.highlight ? colors.secondary : colors.primary }}>
                   <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-black">
                     {event.content}
                   </h3>
