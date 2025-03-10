@@ -11,7 +11,10 @@ export default function Home() {
       {currentView === 'resume' ? (
         <ResumeVisual onViewChange={setCurrentView} />
       ) : (
-        <LLMEvaluationDashboard onViewChange={setCurrentView} />
+        <LLMEvaluationDashboard 
+        onViewChange={setCurrentView} 
+        currentView={currentView} // 添加这一行
+      />
       )}
     </div>
   );

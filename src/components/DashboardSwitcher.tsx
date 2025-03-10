@@ -12,7 +12,10 @@ export default function DashboardSwitcher() {
       {currentView === 'resume' ? (
         <IFanrTimeline onViewChange={(view) => setCurrentView(view)} />
       ) : (
-        <LLMEvaluationDashboard onViewChange={(view) => setCurrentView(view)} />
+        <LLMEvaluationDashboard 
+        onViewChange={setCurrentView} 
+        currentView={currentView} // 添加这一行
+      />
       )}
     </div>
   );

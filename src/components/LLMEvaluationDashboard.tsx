@@ -1,12 +1,21 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Calendar, TrendingUp, Layout, Users, FileText, Award, BarChart2, BookOpen } from 'lucide-react';
+import { Calendar, TrendingUp, Layout, FileText, Award, BarChart2, BookOpen } from 'lucide-react';
 import { PieChart, Pie, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 
-const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string) => void }) => {
+const LLMEvaluationDashboard = ({ 
+  onViewChange, 
+  currentView = 'work' // 添加这个prop，默认值为'work'
+}: { 
+  onViewChange: (view: string) => void,
+  currentView?: string 
+}) => {
   const [activeSection, setActiveSection] = useState<string>('chronology');
-  const [currentView, setCurrentView] = useState<string>('work'); // 'resume' or 'work'
+
+// const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string) => void }) => {
+//   const [activeSection, setActiveSection] = useState<string>('chronology');
+//   const [currentView, setCurrentView] = useState<string>('work'); // 'resume' or 'work'
   
   // Color scheme
   const colors = {
@@ -314,7 +323,7 @@ const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string)
               <button 
                 className={`px-3 py-1.5 rounded-md transition-colors ${currentView === 'resume' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
                 onClick={() => {
-                  setCurrentView('resume');
+                  // setCurrentView('resume');
                   if (onViewChange) onViewChange('resume');
                 }}
               >
@@ -323,7 +332,7 @@ const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string)
               <button 
                 className={`px-3 py-1.5 rounded-md transition-colors ${currentView === 'work' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
                 onClick={() => {
-                  setCurrentView('work');
+                  // setCurrentView('work');
                   if (onViewChange) onViewChange('work');
                 }}
               >
@@ -482,7 +491,7 @@ const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string)
                   
                   {event.year === '2025' && (
                     <div className="mt-4 p-4 rounded-lg text-sm border" style={{ background: colors.lightBackground }}>
-                      <p className="font-medium">Humanity's Last Exam由近1000名学科专家创建，涵盖13种学科，设定极高门槛，目前最佳模型仅达14%准确率，为模型能力评估提供了新的极限挑战。</p>
+                      <p className="font-medium">Humanity&apos;s Last Exam由近1000名学科专家创建，涵盖13种学科，设定极高门槛，目前最佳模型仅达14%准确率，为模型能力评估提供了新的极限挑战。</p>
                     </div>
                   )}
                 </div>
@@ -598,7 +607,7 @@ const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string)
                 <div className="w-2 h-8 mr-3 rounded-sm" style={{ background: colors.primary }}></div>
                 推理能力评测
               </h4>
-              <p className="text-gray-700">推理能力评测从数学推理(GSM8K, MATH)到逻辑推理，再到最近的PROCESSBENCH和Humanity's Last Exam，专注于评估模型的推理过程和深度分析能力。</p>
+              <p className="text-gray-700">推理能力评测从数学推理(GSM8K, MATH)到逻辑推理，再到最近的PROCESSBENCH和Humanity&apos;s Last Exam，专注于评估模型的推理过程和深度分析能力。</p>
             </div>
             
             <div className="border p-5 rounded-xl bg-white shadow-sm hover:shadow-md transition-all">
@@ -744,7 +753,7 @@ const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string)
             </div>
             <div className="p-4 bg-white rounded-lg border border-gray-100">
               <h4 className="font-medium mb-2">校准性指标</h4>
-              <p className="text-sm text-gray-700">校准性指标评估模型置信度与实际准确率的一致性，如Humanity's Last Exam评估模型的校准误差，发现多数模型在错误答案上仍显示高置信度。</p>
+              <p className="text-sm text-gray-700">校准性指标评估模型置信度与实际准确率的一致性，如Humanity&apos;s Last Exam评估模型的校准误差，发现多数模型在错误答案上仍显示高置信度。</p>
             </div>
             <div className="p-4 bg-white rounded-lg border border-gray-100">
               <h4 className="font-medium mb-2">综合评测指标</h4>
@@ -870,7 +879,7 @@ const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string)
         
         {/* Paper spotlight: Humanity's Last Exam */}
         <div className="mt-6 p-6 rounded-xl border border-gray-100" style={{ background: colors.lightBackground }}>
-          <h3 className="text-xl font-bold mb-4">论文聚焦: Humanity's Last Exam</h3>
+          <h3 className="text-xl font-bold mb-4">论文聚焦: Humanity&apos;s Last Exam</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -992,7 +1001,7 @@ const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string)
               <ul className="space-y-2 text-sm text-gray-700">
                 <li className="flex items-start">
                   <div className="w-4 h-4 rounded-full flex-shrink-0 mt-1 mr-2" style={{ background: colors.primary }}></div>
-                  <div><span className="font-medium">推理模型优势:</span> o1和o3-mini在Humanity's Last Exam和推理任务上表现突出</div>
+                  <div><span className="font-medium">推理模型优势:</span> o1和o3-mini在Humanity&apos;s Last Exam和推理任务上表现突出</div>
                 </li>
                 <li className="flex items-start">
                   <div className="w-4 h-4 rounded-full flex-shrink-0 mt-1 mr-2" style={{ background: colors.primary }}></div>
