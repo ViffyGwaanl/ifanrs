@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, Calendar, Award, Briefcase, Code, Terminal, Pencil, Zap, BookOpen, Image, FileText, Video, MessageCircle } from 'lucide-react';
 
 // 添加视图切换属性接口
@@ -28,6 +28,42 @@ const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
     border: "#EEEEEE"
   };
   
+
+  // 添加活动部分状态
+  const [activeSection, setActiveSection] = useState('about');
+  // 添加滚动跟踪
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = [
+        'about',
+        'experience',
+        'projects',
+        'skills',
+        'education'
+      ];
+      
+      const sectionElements = sections.map(id => 
+        document.getElementById(id)
+      );
+      
+      const scrollPosition = window.scrollY + 200; // 设置偏移量以提前触发
+      
+      for (let i = sectionElements.length - 1; i >= 0; i--) {
+        const section = sectionElements[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // 设置初始活动部分
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   // Section styling
   const sectionStyle = "bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6";
   const sectionHeaderStyle = "flex items-center justify-between mb-4";
@@ -239,27 +275,46 @@ const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
           </div>
         </div>
       </div>
-
-      {/* Navigation - IMPROVED LAYOUT */}
+      {/* Navigation - IMPROVED LAYOUT WITH HIGHLIGHTING */}
       <div className="bg-white p-2 sm:p-4 rounded-xl shadow-sm border border-gray-100 mb-4 sm:mb-8 sticky top-1 z-50">
         <div className="grid grid-cols-5 gap-1 sm:gap-2">
-          <a href="#about" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+          <a 
+            href="#about" 
+            className={`px-2 sm:px-4 py-2 rounded-lg text-sm font-medium ${activeSection === 'about' ? 'bg-blue-100' : 'hover:bg-gray-100'} text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start transition-colors`}
+            onClick={() => setActiveSection('about')}
+          >
             <FileText className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
             <span>个人简介</span>
           </a>
-          <a href="#experience" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+          <a 
+            href="#experience" 
+            className={`px-2 sm:px-4 py-2 rounded-lg text-sm font-medium ${activeSection === 'experience' ? 'bg-blue-100' : 'hover:bg-gray-100'} text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start transition-colors`}
+            onClick={() => setActiveSection('experience')}
+          >
             <Briefcase className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
             <span>工作经历</span>
           </a>
-          <a href="#projects" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+          <a 
+            href="#projects" 
+            className={`px-2 sm:px-4 py-2 rounded-lg text-sm font-medium ${activeSection === 'projects' ? 'bg-blue-100' : 'hover:bg-gray-100'} text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start transition-colors`}
+            onClick={() => setActiveSection('projects')}
+          >
             <Zap className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
             <span>个人项目</span>
           </a>
-          <a href="#skills" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+          <a 
+            href="#skills" 
+            className={`px-2 sm:px-4 py-2 rounded-lg text-sm font-medium ${activeSection === 'skills' ? 'bg-blue-100' : 'hover:bg-gray-100'} text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start transition-colors`}
+            onClick={() => setActiveSection('skills')}
+          >
             <Award className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
             <span>技能分析</span>
           </a>
-          <a href="#education" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+          <a 
+            href="#education" 
+            className={`px-2 sm:px-4 py-2 rounded-lg text-sm font-medium ${activeSection === 'education' ? 'bg-blue-100' : 'hover:bg-gray-100'} text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start transition-colors`}
+            onClick={() => setActiveSection('education')}
+          >
             <BookOpen className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
             <span>教育背景</span>
           </a>
