@@ -8,6 +8,14 @@ interface ResumeVisualProps {
 }
 
 const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
+  const [currentView, setCurrentView] = React.useState('resume');
+  
+  // 在切换视图时同时更新本地状态和通知父组件
+  const handleViewChange = (view: string) => {
+    setCurrentView(view);
+    onViewChange && onViewChange(view);
+  };
+  
   // Styling constants with brand colors
   const colors = {
     primary: "#FF4500",
@@ -172,46 +180,47 @@ const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
     <div className="w-full max-w-4xl mx-auto p-2 sm:p-4" style={{ background: colors.background }}>
       {/* Header - 添加视图切换器 */}
       <div className="bg-white p-4 sm:p-8 rounded-xl shadow-sm border border-gray-100 mb-4 sm:mb-8">
-        <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-between">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-between mb-2 sm:mb-4">
           <div className="text-center sm:text-left mb-4 sm:mb-0">
             <h1 className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">关文飞</h1>
             <h2 className="text-base sm:text-xl font-light text-gray-600">数据分析 · AI内容创作 · 财务管理</h2>
-            <div className="flex flex-wrap justify-center sm:justify-start mt-3 gap-2">
-              <div className="bg-gray-100 rounded-full px-3 py-1 text-xs flex items-center">
-                <Calendar size={12} className="mr-1" />
-                广州
-              </div>
-              <div className="bg-gray-100 rounded-full px-3 py-1 text-xs flex items-center">
-                <Calendar size={12} className="mr-1" />
-                13612206403
-              </div>
-              <div className="bg-gray-100 rounded-full px-3 py-1 text-xs flex items-center">
-                <Calendar size={12} className="mr-1" />
-                gwaanl@foxmail.com
-              </div>
-            </div>
           </div>
           <div className="flex items-center space-x-4">
             {/* 添加视图切换器 */}
             <div className="bg-gray-100 rounded-lg p-1 flex text-sm font-medium">
               <button 
-                className="px-3 py-1.5 rounded-md transition-colors bg-white shadow-sm"
-                onClick={() => onViewChange && onViewChange('resume')}
+                className={`px-3 py-1.5 rounded-md transition-colors ${currentView === 'resume' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
+                onClick={() => handleViewChange('resume')}
               >
                 简历
               </button>
               <button 
-                className="px-3 py-1.5 rounded-md transition-colors hover:bg-gray-200"
-                onClick={() => onViewChange && onViewChange('work')}
+                className={`px-3 py-1.5 rounded-md transition-colors ${currentView === 'work' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
+                onClick={() => handleViewChange('work')}
               >
                 作品
               </button>
             </div>
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-white text-3xl font-bold" style={{ background: colors.primary }}>关</div>
+            <div className="w-12 h-12 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-white text-xl sm:text-3xl font-bold" style={{ background: colors.primary }}>关</div>
           </div>
         </div>
         
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+        <div className="flex flex-wrap justify-center sm:justify-start mt-3 gap-2 mb-4">
+          <div className="bg-gray-100 rounded-full px-3 py-1 text-xs flex items-center">
+            <Calendar size={12} className="mr-1" />
+            广州
+          </div>
+          <div className="bg-gray-100 rounded-full px-3 py-1 text-xs flex items-center">
+            <Calendar size={12} className="mr-1" />
+            13612206403
+          </div>
+          <div className="bg-gray-100 rounded-full px-3 py-1 text-xs flex items-center">
+            <Calendar size={12} className="mr-1" />
+            gwaanl@foxmail.com
+          </div>
+        </div>
+        
+        <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
           <div className="p-3 rounded-lg border border-gray-100 bg-white shadow-sm text-center">
             <div className="text-2xl font-bold" style={{ color: colors.primary }}>5</div>
             <div className="text-xs text-gray-500">年工作经验</div>
@@ -230,28 +239,33 @@ const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
           </div>
         </div>
       </div>
-      
-      {/* Navigation */}
+
+      {/* Navigation - IMPROVED LAYOUT */}
       <div className="bg-white p-2 sm:p-4 rounded-xl shadow-sm border border-gray-100 mb-4 sm:mb-8 sticky top-1 z-50">
-        <div className="flex justify-between items-center overflow-x-auto hide-scrollbar">
-          <a href="#about" className="px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
-            <FileText className="w-4 h-4 mr-1 inline" /> 个人简介
+        <div className="grid grid-cols-5 gap-1 sm:gap-2">
+          <a href="#about" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+            <FileText className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
+            <span>个人简介</span>
           </a>
-          <a href="#experience" className="px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
-            <Briefcase className="w-4 h-4 mr-1 inline" /> 工作经历
+          <a href="#experience" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+            <Briefcase className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
+            <span>工作经历</span>
           </a>
-          <a href="#projects" className="px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
-            <Zap className="w-4 h-4 mr-1 inline" /> 个人项目
+          <a href="#projects" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+            <Zap className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
+            <span>个人项目</span>
           </a>
-          <a href="#skills" className="px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
-            <Award className="w-4 h-4 mr-1 inline" /> 技能分析
+          <a href="#skills" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+            <Award className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
+            <span>技能分析</span>
           </a>
-          <a href="#education" className="px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100">
-            <BookOpen className="w-4 h-4 mr-1 inline" /> 教育背景
+          <a href="#education" className="px-2 sm:px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-center sm:text-left flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+            <BookOpen className="w-4 h-4 mb-1 sm:mb-0 sm:mr-2" /> 
+            <span>教育背景</span>
           </a>
         </div>
       </div>
-      
+
       {/* Job Intention */}
       <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
         <div className="flex flex-col sm:flex-row items-center justify-between">
