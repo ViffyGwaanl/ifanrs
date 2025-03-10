@@ -1,22 +1,55 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, TrendingUp, Layout, FileText, Award, BarChart2, BookOpen } from 'lucide-react';
 import { PieChart, Pie, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 
-const LLMEvaluationDashboard = ({ 
+interface LLMEvaluationDashboardProps {
+  onViewChange: (view: string) => void;
+  currentView?: string;
+}
+
+const LLMEvaluationDashboard: React.FC<LLMEvaluationDashboardProps> = ({ 
   onViewChange, 
-  currentView = 'work' // 添加这个prop，默认值为'work'
-}: { 
-  onViewChange: (view: string) => void,
-  currentView?: string 
+  currentView = 'work'
 }) => {
+  // State for active section
   const [activeSection, setActiveSection] = useState<string>('chronology');
 
-// const LLMEvaluationDashboard = ({ onViewChange }: { onViewChange: (view: string) => void }) => {
-//   const [activeSection, setActiveSection] = useState<string>('chronology');
-//   const [currentView, setCurrentView] = useState<string>('work'); // 'resume' or 'work'
-  
+  // Scroll tracking effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = [
+        'chronology',
+        'categories',
+        'methods',
+        'papers',
+        'performance',
+        'findings'
+      ];
+      
+      const sectionElements = sections.map(id => 
+        document.getElementById(id)
+      );
+      
+      const scrollPosition = window.scrollY + 200; // Offset to trigger earlier
+      
+      for (let i = sectionElements.length - 1; i >= 0; i--) {
+        const section = sectionElements[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Set initial active section
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   // Color scheme
   const colors = {
     primary: "#3B82F6", // Blue
