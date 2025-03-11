@@ -49,7 +49,8 @@ const LLMEvaluationDashboard: React.FC<LLMEvaluationDashboardProps> = ({
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, []); // Empty dependency array, only run on mount and unmount
+
   // Color scheme
   const colors = {
     primary: "#3B82F6", // Blue

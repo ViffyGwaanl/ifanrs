@@ -6,15 +6,19 @@ import ResumeVisual from '@/components/IFanrTimeline';
 export default function Home() {
   const [currentView, setCurrentView] = useState('resume');
   
+  const handleViewChange = (view: string) => {
+    setCurrentView(view);
+  };
+  
   return (
     <div>
       {currentView === 'resume' ? (
-        <ResumeVisual onViewChange={setCurrentView} />
+        <ResumeVisual onViewChange={handleViewChange} />
       ) : (
         <LLMEvaluationDashboard 
-        onViewChange={setCurrentView} 
-        currentView={currentView} // 添加这一行
-      />
+          onViewChange={handleViewChange} 
+          currentView={currentView}
+        />
       )}
     </div>
   );

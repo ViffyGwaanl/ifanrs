@@ -8,12 +8,14 @@ interface ResumeVisualProps {
 }
 
 const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
-  const [currentView, setCurrentView] = React.useState('resume');
+  const [currentView, setCurrentView] = useState('resume');
   
   // 在切换视图时同时更新本地状态和通知父组件
   const handleViewChange = (view: string) => {
     setCurrentView(view);
-    onViewChange && onViewChange(view);
+    if (onViewChange) {
+      onViewChange(view);
+    }
   };
   
   // Styling constants with brand colors
@@ -63,7 +65,7 @@ const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, []); // 空依赖数组，只在组件挂载和卸载时运行
   // Section styling
   const sectionStyle = "bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6";
   const sectionHeaderStyle = "flex items-center justify-between mb-4";
@@ -155,7 +157,7 @@ const ResumeVisual: React.FC<ResumeVisualProps> = ({ onViewChange }) => {
     { name: "财务管理", category: "专业知识", level: 90, icon: <Briefcase size={16} /> },
     { name: "内容创作", category: "内容能力", level: 80, icon: <Pencil size={16} /> },
     { name: "视频制作", category: "内容能力", level: 65, icon: <Video size={16} /> },
-    { name: "摄影", category: "创意能力", level: 75, icon: <Image size={16} /> },
+    { name: "摄影", category: "创意能力", level: 75, icon: <Image size={16} aria-label="摄影技能" /> },
     { name: "AI应用", category: "技术能力", level: 80, icon: <Zap size={16} /> },
     { name: "演讲分享", category: "沟通能力", level: 85, icon: <BookOpen size={16} /> }
   ];
